@@ -1,0 +1,24 @@
+{
+  "name": "sn-encoded-query",
+  "version": "1.0.0",
+  "description": "Encoded query builder",
+  "main": "index.js",
+  "scripts": {
+    "test": "node ./node_modules/mocha/bin/mocha"
+  },
+  "keywords": [
+    "servicenow",
+    "query",
+    "encoded",
+    "builder",
+    "snow"
+  ],
+  "author": "benthomasknight",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/chai": "^3.5.2",
+    "@types/mocha": "^2.2.41",
+    "chai": "^3.5.0",
+    "mocha": "^3.4.2"
+  }
+}
