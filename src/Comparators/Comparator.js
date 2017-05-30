@@ -1,50 +1,63 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 var Is_1 = require("./Is");
+var Between_1 = require("./Between");
+exports.Between = Between_1.Between;
 var OrderBy_1 = require("./OrderBy");
 exports.Direction = OrderBy_1.Direction;
-var LessThanOrEqualTo_1 = require("./LessThanOrEqualTo");
-exports.LessThanOrEqualTo = LessThanOrEqualTo_1.LessThanOrEqualTo;
-var LessThan_1 = require("./LessThan");
-exports.LessThan = LessThan_1.LessThan;
-var IsNotEmpty_1 = require("./IsNotEmpty");
-exports.IsNotEmpty = IsNotEmpty_1.IsNotEmpty;
-var IsNot_1 = require("./IsNot");
-exports.IsNot = IsNot_1.IsNot;
-var IsEmpty_1 = require("./IsEmpty");
-exports.IsEmpty = IsEmpty_1.IsEmpty;
-var Is_2 = require("./Is");
-exports.Is = Is_2.Is;
-//export { GroupBy } from "./GroupBy";
-var GreaterThanOrEqualTo_1 = require("./GreaterThanOrEqualTo");
-exports.GreaterThanOrEqualTo = GreaterThanOrEqualTo_1.GreaterThanOrEqualTo;
+var EndsWith_1 = require("./EndsWith");
+exports.EndsWith = EndsWith_1.EndsWith;
 var GreaterThan_1 = require("./GreaterThan");
 exports.GreaterThan = GreaterThan_1.GreaterThan;
-var IsAnything_1 = require("./IsAnything");
-exports.IsAnything = IsAnything_1.IsAnything;
-var IsSameAs_1 = require("./IsSameAs");
-exports.IsSameAs = IsSameAs_1.IsSameAs;
-var IsNotSameAs_1 = require("./IsNotSameAs");
-exports.IsNotSameAs = IsNotSameAs_1.IsNotSameAs;
 var GreaterThanField_1 = require("./GreaterThanField");
 exports.GreaterThanField = GreaterThanField_1.GreaterThanField;
-var LessThanField_1 = require("./LessThanField");
-exports.LessThanField = LessThanField_1.LessThanField;
 var GreaterThanOrEqualsField_1 = require("./GreaterThanOrEqualsField");
 exports.GreaterThanOrEqualsField = GreaterThanOrEqualsField_1.GreaterThanOrEqualsField;
+var GreaterThanOrEqualTo_1 = require("./GreaterThanOrEqualTo");
+exports.GreaterThanOrEqualTo = GreaterThanOrEqualTo_1.GreaterThanOrEqualTo;
+var In_1 = require("./In");
+exports.In = In_1.In;
+var Is_2 = require("./Is");
+exports.Is = Is_2.Is;
+var IsAnything_1 = require("./IsAnything");
+exports.IsAnything = IsAnything_1.IsAnything;
+var IsEmpty_1 = require("./IsEmpty");
+exports.IsEmpty = IsEmpty_1.IsEmpty;
+var IsNot_1 = require("./IsNot");
+exports.IsNot = IsNot_1.IsNot;
+var IsNotEmpty_1 = require("./IsNotEmpty");
+exports.IsNotEmpty = IsNotEmpty_1.IsNotEmpty;
+var IsNotSameAs_1 = require("./IsNotSameAs");
+exports.IsNotSameAs = IsNotSameAs_1.IsNotSameAs;
+var IsSameAs_1 = require("./IsSameAs");
+exports.IsSameAs = IsSameAs_1.IsSameAs;
+var LessThan_1 = require("./LessThan");
+exports.LessThan = LessThan_1.LessThan;
+var LessThanField_1 = require("./LessThanField");
+exports.LessThanField = LessThanField_1.LessThanField;
 var LessThanOrEqualsField_1 = require("./LessThanOrEqualsField");
 exports.LessThanOrEqualsField = LessThanOrEqualsField_1.LessThanOrEqualsField;
-function parseArgs(field, compOrVal) {
-    var values = [];
-    for (var _i = 2; _i < arguments.length; _i++) {
-        values[_i - 2] = arguments[_i];
-    }
+var LessThanOrEqualTo_1 = require("./LessThanOrEqualTo");
+exports.LessThanOrEqualTo = LessThanOrEqualTo_1.LessThanOrEqualTo;
+var Like_1 = require("./Like");
+exports.Like = Like_1.Like;
+var NotIn_1 = require("./NotIn");
+exports.NotIn = NotIn_1.NotIn;
+var NotLike_1 = require("./NotLike");
+exports.NotLike = NotLike_1.NotLike;
+var StartsWith_1 = require("./StartsWith");
+exports.StartsWith = StartsWith_1.StartsWith;
+function parseArgs(field, compOrVal, values) {
     if (typeof compOrVal === "function") {
         // Comparator has been given
         if (compOrVal.length == 1) {
-            return new compOrVal(field);
+            return new (compOrVal.bind.apply(compOrVal, [void 0, field].concat(values)))();
         }
         if (compOrVal.length == 2) {
             return new compOrVal(field, values[0]);
+        }
+        if (compOrVal.length == 3) {
+            return new compOrVal(field, values[0], values[1]);
         }
     }
     else {
@@ -54,29 +67,8 @@ function parseArgs(field, compOrVal) {
 }
 exports.parseArgs = parseArgs;
 var types = [
-    /*{"code":"=", "format":"{0}{1}{2}"},
-    {"code":"!=", "format":"{0}{1}{2}"},
-    {"code":"ISEMPTY", "format":"{0}{1}"},
-    {"code":"ISNOTEMPTY", "format":"{0}{1}"},
-    {"code":"<", "format":"{0}{1}{2}"},
-    {"code":">", "format":"{0}{1}{2}"},
-    {"code":"<=", "format":"{0}{1}{2}"},
-    {"code":">=", "format":"{0}{1}{2}"},*/
-    { "code": "BETWEEN", "format": "{0}{1}{2}@{3}" },
-    //{"code":"ANYTHING", "format":"{0}{1}"},
-    //{"code":"SAMEAS", "format":"{0}{1}{2}"},
-    //{"code":"NSAMEAS", "format":"{0}{1}{2}"},
-    //{"code":"GT_FIELD", "format":"{0}{1}{2}"},
-    //{"code":"LT_FIELD", "format":"{0}{1}{2}"},
-    //{"code":"GT_OR_EQUALS_FIELD", "format":"{0}{1}{2}"},
-    //{"code":"LT_OR_EQUALS_FIELD", "format":"{0}{1}{2}"},
     { "code": "DATEPART", "format": "{0}{1}{2}{4}" },
     { "code": "RELATIVE", "format": "{0}{1}{2}{4}" },
-    { "code": "IN", "format": "{0}{1}{2}" },
     { "code": "NOT IN", "format": "{0}{1}{2}" },
-    { "code": "LIKE", "format": "{0}{1}{2}" },
-    { "code": "STARTSWITH", "format": "{0}{1}{2}" },
-    { "code": "ENDSWITH", "format": "{0}{1}{2}" },
-    { "code": "NOT LIKE", "format": "{0}{1}{2}" }
 ];
 //# sourceMappingURL=Comparator.js.map

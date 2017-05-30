@@ -11,15 +11,15 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var IComparator_1 = require("./IComparator");
-var LessThanOrEqualTo = (function (_super) {
-    __extends(LessThanOrEqualTo, _super);
-    function LessThanOrEqualTo(field, value) {
+var EndsWith = (function (_super) {
+    __extends(EndsWith, _super);
+    function EndsWith(field, value) {
         return _super.call(this, field, value) || this;
     }
-    LessThanOrEqualTo.prototype.get = function () {
-        return this.field + "<=" + this.value;
+    EndsWith.prototype.get = function () {
+        return this.field + "ENDSWITH" + this.value.toString();
     };
-    return LessThanOrEqualTo;
+    return EndsWith;
 }(IComparator_1.ValueComparator));
-exports.LessThanOrEqualTo = LessThanOrEqualTo;
-//# sourceMappingURL=LessThanOrEqualTo.js.map
+exports.EndsWith = EndsWith;
+//# sourceMappingURL=EndsWith.js.map

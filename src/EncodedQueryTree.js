@@ -1,4 +1,5 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 var EncodedQueryPart_1 = require("./EncodedQueryPart");
 var EncodedQueryPart_2 = require("./EncodedQueryPart");
 var EncodedQueryTree = (function () {

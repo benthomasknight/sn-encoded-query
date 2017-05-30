@@ -22,3 +22,18 @@ export abstract class ValueComparator extends Comparator implements IValueCompar
     throw new Error();
   }
 }
+
+export interface IMultiValueComparator extends IValueComparator {
+  value:any[];
+}
+
+export abstract class MultiValueComparator extends Comparator implements IMultiValueComparator {
+  public value:any[];
+  constructor(field:string, ...value:any[]){
+    super(field);
+    this.value = value;
+  }
+  get():string {
+    throw new Error();
+  }
+}

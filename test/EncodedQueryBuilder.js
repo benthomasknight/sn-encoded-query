@@ -1,8 +1,9 @@
 "use strict";
-var chai_1 = require("chai");
-var Comparators = require("./../src/Comparators/Comparator");
-var OrderBy_1 = require("../src/Comparators/OrderBy");
+Object.defineProperty(exports, "__esModule", { value: true });
 var EncodedQueryBuilder_1 = require("./../src/EncodedQueryBuilder");
+var chai_1 = require("chai");
+var OrderBy_1 = require("../src/Comparators/OrderBy");
+var Comparators = require("./../src/Comparators/Comparator");
 describe('EncodedQueryBuilder', function () {
     describe('#addQuery(field, value)', function () {
         it('should return an Is object when no comparator is provided', function () {
@@ -13,7 +14,40 @@ describe('EncodedQueryBuilder', function () {
             chai_1.expect(part.part.get()).to.equal('field=value');
         });
     });
-    describe('#addQuery(field, comparator, value)', function () {
+    describe('#addQuery(field, comparator, value?)', function () {
+        it('should return a Between object when a Between comparator is provided', function () {
+            // String Dates
+            var part = new EncodedQueryBuilder_1.EncodedQueryBuilder().addQuery('field', Comparators.Between, '2017-05-30', '2017-05-31 10:10:10');
+            chai_1.expect(part.part).to.be.instanceOf(Comparators.Between);
+            chai_1.expect(part.part.field).to.equal('field');
+            chai_1.expect(part.part.value).to.have.length(2);
+            chai_1.expect(part.part.value[0]).to.equal('2017-05-30');
+            chai_1.expect(part.part.value[1]).to.equal('2017-05-31 10:10:10');
+            chai_1.expect(part.part.get()).to.equal('fieldBETWEENjavascript:gs.dateGenerate(\'2017-05-30\',\'00:00:00\')@javascript:gs.dateGenerate(\'2017-05-31\',\'10:10:10\')');
+            // Date Objects
+            var d1 = new Date(2017, 4, 30);
+            var d2 = new Date(2017, 4, 31, 10, 10, 10);
+            part = new EncodedQueryBuilder_1.EncodedQueryBuilder().addQuery('field', Comparators.Between, d1, d2);
+            chai_1.expect(part.part.field).to.equal('field');
+            chai_1.expect(part.part.value).to.have.length(2);
+            chai_1.expect(part.part.value[0].toUTCString()).to.equal(d1.toUTCString());
+            chai_1.expect(part.part.value[1].toUTCString()).to.equal(d2.toUTCString());
+            chai_1.expect(part.part.get()).to.equal('fieldBETWEENjavascript:gs.dateGenerate(\'2017-05-30\',\'00:00:00\')@javascript:gs.dateGenerate(\'2017-05-31\',\'10:10:10\')');
+            // Numbers
+            part = new EncodedQueryBuilder_1.EncodedQueryBuilder().addQuery('field', Comparators.Between, 0, 10);
+            chai_1.expect(part.part.field).to.equal('field');
+            chai_1.expect(part.part.value).to.have.length(2);
+            chai_1.expect(part.part.value[0]).to.equal(0);
+            chai_1.expect(part.part.value[1]).to.equal(10);
+            chai_1.expect(part.part.get()).to.equal('fieldBETWEEN0@10');
+        });
+        it('should return an EndsWith object when an EndsWith comparator is provided', function () {
+            var part = new EncodedQueryBuilder_1.EncodedQueryBuilder().addQuery('field', Comparators.EndsWith, 'value');
+            chai_1.expect(part.part).to.be.instanceOf(Comparators.EndsWith);
+            chai_1.expect(part.part.field).to.equal('field');
+            chai_1.expect(part.part.value).to.equal('value');
+            chai_1.expect(part.part.get()).to.equal('fieldENDSWITHvalue');
+        });
         it('should return a GreaterThan object when a GreaterThan comparator is provided', function () {
             var part = new EncodedQueryBuilder_1.EncodedQueryBuilder().addQuery('field', Comparators.GreaterThan, 'value');
             chai_1.expect(part.part).to.be.instanceOf(Comparators.GreaterThan);
@@ -41,6 +75,28 @@ describe('EncodedQueryBuilder', function () {
             chai_1.expect(part.part.field).to.equal('field');
             chai_1.expect(part.part.value).to.equal('value');
             chai_1.expect(part.part.get()).to.equal('field>=value');
+        });
+        it('should return an In object when an In comparator is provided', function () {
+            var part = new EncodedQueryBuilder_1.EncodedQueryBuilder().addQuery('field', Comparators.In, 'value', 'value2');
+            chai_1.expect(part.part).to.be.instanceOf(Comparators.In);
+            chai_1.expect(part.part.field).to.equal('field');
+            chai_1.expect(part.part.value[0][0]).to.equal('value');
+            chai_1.expect(part.part.value[0][1]).to.equal('value2');
+            chai_1.expect(part.part.get()).to.equal('fieldINvalue,value2');
+            part = new EncodedQueryBuilder_1.EncodedQueryBuilder().addQuery('field', Comparators.In, ['value', 'value2']);
+            chai_1.expect(part.part).to.be.instanceOf(Comparators.In);
+            chai_1.expect(part.part.field).to.equal('field');
+            chai_1.expect(part.part.value[0][0]).to.equal('value');
+            chai_1.expect(part.part.value[0][1]).to.equal('value2');
+            chai_1.expect(part.part.get()).to.equal('fieldINvalue,value2');
+            part = new EncodedQueryBuilder_1.EncodedQueryBuilder().addQuery('field', Comparators.In, ['value', 'value2'], 'value3', ['value4']);
+            chai_1.expect(part.part).to.be.instanceOf(Comparators.In);
+            chai_1.expect(part.part.field).to.equal('field');
+            chai_1.expect(part.part.value[0][0]).to.equal('value');
+            chai_1.expect(part.part.value[0][1]).to.equal('value2');
+            chai_1.expect(part.part.value[0][2]).to.equal('value3');
+            chai_1.expect(part.part.value[0][3]).to.equal('value4');
+            chai_1.expect(part.part.get()).to.equal('fieldINvalue,value2,value3,value4');
         });
         it('should return an Is object when an Is comparator is provided', function () {
             var part = new EncodedQueryBuilder_1.EncodedQueryBuilder().addQuery('field', Comparators.Is, 'value');
@@ -133,6 +189,49 @@ describe('EncodedQueryBuilder', function () {
             chai_1.expect(part.part.value).to.equal(Comparators.Direction.Descending);
             chai_1.expect(part.part.get()).to.equal('ORDERBYDESCfield');
         });
+        it('should return a Like object when a Like comparator is provided', function () {
+            var part = new EncodedQueryBuilder_1.EncodedQueryBuilder().addQuery('field', Comparators.Like, 'value');
+            chai_1.expect(part.part).to.be.instanceOf(Comparators.Like);
+            chai_1.expect(part.part.field).to.equal('field');
+            chai_1.expect(part.part.value).to.equal('value');
+            chai_1.expect(part.part.get()).to.equal('fieldLIKEvalue');
+        });
+        it('should return a NotIn object when a NotIn comparator is provided', function () {
+            var part = new EncodedQueryBuilder_1.EncodedQueryBuilder().addQuery('field', Comparators.NotIn, 'value', 'value2');
+            chai_1.expect(part.part).to.be.instanceOf(Comparators.NotIn);
+            chai_1.expect(part.part.field).to.equal('field');
+            chai_1.expect(part.part.value[0][0]).to.equal('value');
+            chai_1.expect(part.part.value[0][1]).to.equal('value2');
+            chai_1.expect(part.part.get()).to.equal('fieldNOT INvalue,value2');
+            part = new EncodedQueryBuilder_1.EncodedQueryBuilder().addQuery('field', Comparators.NotIn, ['value', 'value2']);
+            chai_1.expect(part.part).to.be.instanceOf(Comparators.NotIn);
+            chai_1.expect(part.part.field).to.equal('field');
+            chai_1.expect(part.part.value[0][0]).to.equal('value');
+            chai_1.expect(part.part.value[0][1]).to.equal('value2');
+            chai_1.expect(part.part.get()).to.equal('fieldNOT INvalue,value2');
+            part = new EncodedQueryBuilder_1.EncodedQueryBuilder().addQuery('field', Comparators.NotIn, ['value', 'value2'], 'value3', ['value4']);
+            chai_1.expect(part.part).to.be.instanceOf(Comparators.NotIn);
+            chai_1.expect(part.part.field).to.equal('field');
+            chai_1.expect(part.part.value[0][0]).to.equal('value');
+            chai_1.expect(part.part.value[0][1]).to.equal('value2');
+            chai_1.expect(part.part.value[0][2]).to.equal('value3');
+            chai_1.expect(part.part.value[0][3]).to.equal('value4');
+            chai_1.expect(part.part.get()).to.equal('fieldNOT INvalue,value2,value3,value4');
+        });
+        it('should return a Not Like object when a Not Like comparator is provided', function () {
+            var part = new EncodedQueryBuilder_1.EncodedQueryBuilder().addQuery('field', Comparators.NotLike, 'value');
+            chai_1.expect(part.part).to.be.instanceOf(Comparators.NotLike);
+            chai_1.expect(part.part.field).to.equal('field');
+            chai_1.expect(part.part.value).to.equal('value');
+            chai_1.expect(part.part.get()).to.equal('fieldNOT LIKEvalue');
+        });
+        it('should return an StartsWith object when an StartsWith comparator is provided', function () {
+            var part = new EncodedQueryBuilder_1.EncodedQueryBuilder().addQuery('field', Comparators.StartsWith, 'value');
+            chai_1.expect(part.part).to.be.instanceOf(Comparators.StartsWith);
+            chai_1.expect(part.part.field).to.equal('field');
+            chai_1.expect(part.part.value).to.equal('value');
+            chai_1.expect(part.part.get()).to.equal('fieldSTARTSWITHvalue');
+        });
     });
     describe('#build()', function () {
         it('should return a complete query string', function () {
@@ -166,15 +265,5 @@ describe('EncodedQueryBuilder', function () {
             chai_1.expect(builder.build()).to.equal('descriptionISNOTEMPTY^ORDERBYactive^ORDERBYDESCsys_created_by^GROUPBYactive');
         });
     });
-    /*describe('#get()', function() {
-      it('should return a complete query string', function() {
-        let part = new EncodedQueryBuilder().addQuery('field', 'value');
-  
-        expect(part.part).to.be.instanceOf(Comparators.Is);
-        expect(part.part.field).to.equal('field');
-        expect(part.part.value).to.equal('value');
-        expect(part.part.get()).to.equal('field=value');
-      });
-    });*/
 });
 //# sourceMappingURL=EncodedQueryBuilder.js.map

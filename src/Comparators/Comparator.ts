@@ -1,36 +1,45 @@
-
-import { IComparator, Comparator, IValueComparator, ValueComparator } from "./IComparator";
+import { IComparator, Comparator, IValueComparator, ValueComparator, IMultiValueComparator, MultiValueComparator } from "./IComparator";
 import { Is } from "./Is";
 
+export { Between } from "./Between";
 export { Direction } from "./OrderBy";
-export { LessThanOrEqualTo } from "./LessThanOrEqualTo";
-export { LessThan } from "./LessThan";
-export { IsNotEmpty } from "./IsNotEmpty";
-export { IsNot } from "./IsNot";
-export { IsEmpty } from "./IsEmpty";
-export { Is } from "./Is";
-//export { GroupBy } from "./GroupBy";
-export { GreaterThanOrEqualTo } from "./GreaterThanOrEqualTo";
+export { EndsWith } from "./EndsWith";
 export { GreaterThan } from "./GreaterThan";
-export { IsAnything } from "./IsAnything";
-export { IsSameAs } from "./IsSameAs";
-export { IsNotSameAs } from "./IsNotSameAs";
 export { GreaterThanField } from "./GreaterThanField";
-export { LessThanField } from "./LessThanField";
 export { GreaterThanOrEqualsField } from "./GreaterThanOrEqualsField";
+export { GreaterThanOrEqualTo } from "./GreaterThanOrEqualTo";
+export { In } from "./In";
+export { Is } from "./Is";
+export { IsAnything } from "./IsAnything";
+export { IsEmpty } from "./IsEmpty";
+export { IsNot } from "./IsNot";
+export { IsNotEmpty } from "./IsNotEmpty";
+export { IsNotSameAs } from "./IsNotSameAs";
+export { IsSameAs } from "./IsSameAs";
+export { LessThan } from "./LessThan";
+export { LessThanField } from "./LessThanField";
 export { LessThanOrEqualsField } from "./LessThanOrEqualsField";
+export { LessThanOrEqualTo } from "./LessThanOrEqualTo";
+export { Like } from './Like';
+export { NotIn } from "./NotIn";
+export { NotLike } from './NotLike';
+export { StartsWith } from "./StartsWith";
 
 export function parseArgs(field:string, comparator:typeof Comparator):IComparator;
 export function parseArgs(field:string, comparator:typeof ValueComparator, value:any):IValueComparator;
+export function parseArgs(field:string, comparator:typeof MultiValueComparator, ...values:any[]):IMultiValueComparator;
 export function parseArgs(field:string, comparator:any):IValueComparator;
-export function parseArgs(field:string, compOrVal:any, ...values:any[]):IComparator|IValueComparator {
+export function parseArgs(field:string, compOrVal:any, values?:any[]):IComparator|IValueComparator|IMultiValueComparator {
   if(typeof compOrVal === "function") {
     // Comparator has been given
     if(compOrVal.length == 1) {
-      return new compOrVal(field) as IComparator;
+      return new compOrVal(field, ...values) as IComparator;
     }
     if(compOrVal.length == 2) {
       return new compOrVal(field, values[0]) as IValueComparator;
+    }
+    if(compOrVal.length == 3) {
+      return new compOrVal(field, values[0], values[1]) as IMultiValueComparator;
     }
   }
   else {
@@ -49,30 +58,8 @@ export interface IType {
 
 
 let types:Array<IType> = [
-    /*{"code":"=", "format":"{0}{1}{2}"},
-    {"code":"!=", "format":"{0}{1}{2}"},
-    {"code":"ISEMPTY", "format":"{0}{1}"},
-    {"code":"ISNOTEMPTY", "format":"{0}{1}"},
-    {"code":"<", "format":"{0}{1}{2}"},
-    {"code":">", "format":"{0}{1}{2}"},
-    {"code":"<=", "format":"{0}{1}{2}"},
-    {"code":">=", "format":"{0}{1}{2}"},*/
-    {"code":"BETWEEN", "format":"{0}{1}{2}@{3}"},
-    //{"code":"ANYTHING", "format":"{0}{1}"},
-    //{"code":"SAMEAS", "format":"{0}{1}{2}"},
-    //{"code":"NSAMEAS", "format":"{0}{1}{2}"},
-    //{"code":"GT_FIELD", "format":"{0}{1}{2}"},
-    //{"code":"LT_FIELD", "format":"{0}{1}{2}"},
-    //{"code":"GT_OR_EQUALS_FIELD", "format":"{0}{1}{2}"},
-    //{"code":"LT_OR_EQUALS_FIELD", "format":"{0}{1}{2}"},
     {"code":"DATEPART", "format":"{0}{1}{2}{4}"},
     {"code":"RELATIVE", "format":"{0}{1}{2}{4}"},
-    {"code":"IN", "format":"{0}{1}{2}"},
-    {"code":"NOT IN", "format":"{0}{1}{2}"},
-    {"code":"LIKE", "format":"{0}{1}{2}"},
-    {"code":"STARTSWITH", "format":"{0}{1}{2}"},
-    {"code":"ENDSWITH", "format":"{0}{1}{2}"},
-    {"code":"NOT LIKE", "format":"{0}{1}{2}"}
 
     // Below are options I am not sure how to handle. Will look again later
     /*{"code":"ON", "format":"{0}{1}{2}{4}"}, // Calendar specific. Quite complex so leaving for now

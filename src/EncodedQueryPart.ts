@@ -1,7 +1,7 @@
 //import {IType} from './Comparator';
 import { OrderBy, Direction } from "./Comparators/OrderBy";
 import { parseArgs } from "./Comparators/Comparator";
-import { IValueComparator, IComparator, Comparator, ValueComparator } from "./Comparators/IComparator";
+import { IMultiValueComparator, IValueComparator, IComparator, Comparator, ValueComparator, MultiValueComparator } from "./Comparators/IComparator";
 
 export enum Operator {
   Start = <any>'',
@@ -14,17 +14,20 @@ export enum Operator {
   OrderBy = <any>'ORDERBY'
 }
 
-export interface IPart<T extends Comparator|ValueComparator> {
+export interface IPart<T extends Comparator|ValueComparator|MultiValueComparator> {
   operator:Operator;
   part:T;
-  next:EncodedQueryPart<IComparator|IValueComparator>;
+  next:EncodedQueryPart<IComparator|IValueComparator|IMultiValueComparator>;
 
   and(field:string, comparator:typeof Comparator):EncodedQueryPart<IComparator>;
   and(field:string, comparator:typeof ValueComparator, value:any):EncodedQueryPart<IValueComparator>;
+  and(field:string, comparator:typeof MultiValueComparator, value:any):EncodedQueryPart<IMultiValueComparator>;
   and(field:string, value:any):EncodedQueryPart<IValueComparator>;
+  //and(field:string, ...value:any[]):EncodedQueryPart<IMultiValueComparator>;
 
   or(field:string, comparator:typeof Comparator):EncodedQueryPart<IComparator>;
   or(field:string, comparator:typeof ValueComparator, value:any):EncodedQueryPart<IValueComparator>;
+  or(field:string, comparator:typeof MultiValueComparator, value:any):EncodedQueryPart<IMultiValueComparator>;
   or(field:string, value:any):EncodedQueryPart<IValueComparator>;
 }
 
@@ -38,8 +41,9 @@ export class EncodedQueryPart<T extends IComparator|IValueComparator> implements
   and(field:string, comparator:typeof Comparator):EncodedQueryPart<IComparator>;
   and(field:string, comparator:typeof OrderBy, value:Direction):EncodedQueryPart<IValueComparator>;
   and(field:string, comparator:typeof ValueComparator, value:any):EncodedQueryPart<IValueComparator>;
+  and(field:string, comparator:typeof MultiValueComparator, value:any):EncodedQueryPart<IMultiValueComparator>;
   and(field:string, value:any):EncodedQueryPart<IValueComparator>;
-  and(field:string, compOrVal:any, value?:any):EncodedQueryPart<IComparator|IValueComparator> {
+  and(field:string, compOrVal:any, ...value:any[]):EncodedQueryPart<IComparator|IValueComparator|IMultiValueComparator> {
     let p = EncodedQueryPart.ensurePart(Operator.And, parseArgs(field, compOrVal, value));
     this.next = p;
     return <EncodedQueryPart<T>>p;
@@ -48,8 +52,9 @@ export class EncodedQueryPart<T extends IComparator|IValueComparator> implements
   or(field:string, comparator:typeof Comparator):EncodedQueryPart<IComparator>;
   or(field:string, comparator:typeof OrderBy, value:Direction):EncodedQueryPart<IValueComparator>;
   or(field:string, comparator:typeof ValueComparator, value:any):EncodedQueryPart<IValueComparator>;
+  or(field:string, comparator:typeof MultiValueComparator, value:any):EncodedQueryPart<IMultiValueComparator>;
   or(field:string, value:any):EncodedQueryPart<IValueComparator>;
-  or(field:string, compOrVal:any, value?:any):EncodedQueryPart<IComparator|IValueComparator> {
+  or(field:string, compOrVal:any, ...value:any[]):EncodedQueryPart<IComparator|IValueComparator|IMultiValueComparator> {
     // It is not logical to or an order by, so and it instead
     if(compOrVal === typeof OrderBy) {
       return this.and(field, compOrVal, value);
@@ -72,15 +77,18 @@ export class EncodedQueryPart<T extends IComparator|IValueComparator> implements
     return str;
   }
 
-  static ensurePart(operator:Operator, part:EncodedQueryPart<Comparator|ValueComparator>|IComparator|IValueComparator):EncodedQueryPart<IComparator|IValueComparator> {
+  static ensurePart(operator:Operator, part:EncodedQueryPart<Comparator|ValueComparator|MultiValueComparator>|IComparator|IValueComparator|IMultiValueComparator):EncodedQueryPart<IComparator|IValueComparator|IMultiValueComparator> {
     if(part instanceof Comparator) {
       return new EncodedQueryPart<IComparator>(operator, part);
     }
     else if(part instanceof ValueComparator) {
       return new EncodedQueryPart<IValueComparator>(operator, part);
     }
+    else if(part instanceof MultiValueComparator) {
+      return new EncodedQueryPart<IMultiValueComparator>(operator, part);
+    }
     else {
-      return <EncodedQueryPart<IComparator|IValueComparator>>part;
+      return <EncodedQueryPart<IComparator|IValueComparator|IMultiValueComparator>>part;
     }
   }
 }

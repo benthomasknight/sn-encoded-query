@@ -20,5 +20,11 @@
     "@types/mocha": "^2.2.41",
     "chai": "^3.5.0",
     "mocha": "^3.4.2"
+  },
+  "dependencies": {
+    "@types/lodash": "^4.14.64",
+    "@types/moment": "^2.13.0",
+    "lodash": "^4.17.4",
+    "moment": "^2.18.1"
   }
 }

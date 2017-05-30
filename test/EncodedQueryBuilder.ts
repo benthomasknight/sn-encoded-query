@@ -1,8 +1,8 @@
-import * as mocha from "mocha";
-import { expect } from 'chai';
-import * as Comparators from "./../src/Comparators/Comparator";
-import { OrderBy } from '../src/Comparators/OrderBy';
 import { EncodedQueryBuilder } from "./../src/EncodedQueryBuilder";
+import { expect } from 'chai';
+import { OrderBy } from '../src/Comparators/OrderBy';
+import * as Comparators from "./../src/Comparators/Comparator";
+import * as mocha from "mocha";
 
 
 describe('EncodedQueryBuilder', function() {
@@ -18,6 +18,42 @@ describe('EncodedQueryBuilder', function() {
   });
 
   describe('#addQuery(field, comparator, value?)', function() {
+    it('should return a Between object when a Between comparator is provided', function() {
+      // String Dates
+      let part = new EncodedQueryBuilder().addQuery('field', Comparators.Between, '2017-05-30', '2017-05-31 10:10:10');
+      expect(part.part).to.be.instanceOf(Comparators.Between);
+      expect(part.part.field).to.equal('field');
+      expect(part.part.value).to.have.length(2);
+      expect(part.part.value[0]).to.equal('2017-05-30');
+      expect(part.part.value[1]).to.equal('2017-05-31 10:10:10');
+      expect(part.part.get()).to.equal('fieldBETWEENjavascript:gs.dateGenerate(\'2017-05-30\',\'00:00:00\')@javascript:gs.dateGenerate(\'2017-05-31\',\'10:10:10\')');
+
+      // Date Objects
+      var d1 = new Date(2017, 4, 30);
+      var d2 = new Date(2017, 4, 31, 10, 10, 10);
+      part = new EncodedQueryBuilder().addQuery('field', Comparators.Between, d1, d2);
+      expect(part.part.field).to.equal('field');
+      expect(part.part.value).to.have.length(2);
+      expect(part.part.value[0].toUTCString()).to.equal(d1.toUTCString());
+      expect(part.part.value[1].toUTCString()).to.equal(d2.toUTCString());
+      expect(part.part.get()).to.equal('fieldBETWEENjavascript:gs.dateGenerate(\'2017-05-30\',\'00:00:00\')@javascript:gs.dateGenerate(\'2017-05-31\',\'10:10:10\')');
+
+      // Numbers
+      part = new EncodedQueryBuilder().addQuery('field', Comparators.Between, 0, 10);
+      expect(part.part.field).to.equal('field');
+      expect(part.part.value).to.have.length(2);
+      expect(part.part.value[0]).to.equal(0);
+      expect(part.part.value[1]).to.equal(10);
+      expect(part.part.get()).to.equal('fieldBETWEEN0@10');
+    });
+    it('should return an EndsWith object when an EndsWith comparator is provided', function() {
+      let part = new EncodedQueryBuilder().addQuery('field', Comparators.EndsWith, 'value');
+
+      expect(part.part).to.be.instanceOf(Comparators.EndsWith);
+      expect(part.part.field).to.equal('field');
+      expect(part.part.value).to.equal('value');
+      expect(part.part.get()).to.equal('fieldENDSWITHvalue');
+    });
     it('should return a GreaterThan object when a GreaterThan comparator is provided', function() {
       let part = new EncodedQueryBuilder().addQuery('field', Comparators.GreaterThan, 'value');
 
@@ -48,6 +84,31 @@ describe('EncodedQueryBuilder', function() {
       expect(part.part.field).to.equal('field');
       expect(part.part.value).to.equal('value');
       expect(part.part.get()).to.equal('field>=value');
+    });
+    it('should return an In object when an In comparator is provided', function() {
+      let part = new EncodedQueryBuilder().addQuery('field', Comparators.In, 'value', 'value2');
+
+      expect(part.part).to.be.instanceOf(Comparators.In);
+      expect(part.part.field).to.equal('field');
+      expect(part.part.value[0][0]).to.equal('value');
+      expect(part.part.value[0][1]).to.equal('value2');
+      expect(part.part.get()).to.equal('fieldINvalue,value2');
+
+      part = new EncodedQueryBuilder().addQuery('field', Comparators.In, ['value', 'value2']);
+      expect(part.part).to.be.instanceOf(Comparators.In);
+      expect(part.part.field).to.equal('field');
+      expect(part.part.value[0][0]).to.equal('value');
+      expect(part.part.value[0][1]).to.equal('value2');
+      expect(part.part.get()).to.equal('fieldINvalue,value2');
+
+      part = new EncodedQueryBuilder().addQuery('field', Comparators.In, ['value', 'value2'], 'value3', ['value4']);
+      expect(part.part).to.be.instanceOf(Comparators.In);
+      expect(part.part.field).to.equal('field');
+      expect(part.part.value[0][0]).to.equal('value');
+      expect(part.part.value[0][1]).to.equal('value2');
+      expect(part.part.value[0][2]).to.equal('value3');
+      expect(part.part.value[0][3]).to.equal('value4');
+      expect(part.part.get()).to.equal('fieldINvalue,value2,value3,value4');
     });
     it('should return an Is object when an Is comparator is provided', function() {
       let part = new EncodedQueryBuilder().addQuery('field', Comparators.Is, 'value');
@@ -145,6 +206,55 @@ describe('EncodedQueryBuilder', function() {
       expect(part.part.field).to.equal('field');
       expect(part.part.value).to.equal(Comparators.Direction.Descending);
       expect(part.part.get()).to.equal('ORDERBYDESCfield');
+    });
+    it('should return a Like object when a Like comparator is provided', function() {
+      let part = new EncodedQueryBuilder().addQuery('field', Comparators.Like, 'value');
+
+      expect(part.part).to.be.instanceOf(Comparators.Like);
+      expect(part.part.field).to.equal('field');
+      expect(part.part.value).to.equal('value');
+      expect(part.part.get()).to.equal('fieldLIKEvalue');
+    });
+    it('should return a NotIn object when a NotIn comparator is provided', function() {
+      let part = new EncodedQueryBuilder().addQuery('field', Comparators.NotIn, 'value', 'value2');
+
+      expect(part.part).to.be.instanceOf(Comparators.NotIn);
+      expect(part.part.field).to.equal('field');
+      expect(part.part.value[0][0]).to.equal('value');
+      expect(part.part.value[0][1]).to.equal('value2');
+      expect(part.part.get()).to.equal('fieldNOT INvalue,value2');
+
+      part = new EncodedQueryBuilder().addQuery('field', Comparators.NotIn, ['value', 'value2']);
+      expect(part.part).to.be.instanceOf(Comparators.NotIn);
+      expect(part.part.field).to.equal('field');
+      expect(part.part.value[0][0]).to.equal('value');
+      expect(part.part.value[0][1]).to.equal('value2');
+      expect(part.part.get()).to.equal('fieldNOT INvalue,value2');
+
+      part = new EncodedQueryBuilder().addQuery('field', Comparators.NotIn, ['value', 'value2'], 'value3', ['value4']);
+      expect(part.part).to.be.instanceOf(Comparators.NotIn);
+      expect(part.part.field).to.equal('field');
+      expect(part.part.value[0][0]).to.equal('value');
+      expect(part.part.value[0][1]).to.equal('value2');
+      expect(part.part.value[0][2]).to.equal('value3');
+      expect(part.part.value[0][3]).to.equal('value4');
+      expect(part.part.get()).to.equal('fieldNOT INvalue,value2,value3,value4');
+    });
+    it('should return a Not Like object when a Not Like comparator is provided', function() {
+      let part = new EncodedQueryBuilder().addQuery('field', Comparators.NotLike, 'value');
+
+      expect(part.part).to.be.instanceOf(Comparators.NotLike);
+      expect(part.part.field).to.equal('field');
+      expect(part.part.value).to.equal('value');
+      expect(part.part.get()).to.equal('fieldNOT LIKEvalue');
+    });
+    it('should return an StartsWith object when an StartsWith comparator is provided', function() {
+      let part = new EncodedQueryBuilder().addQuery('field', Comparators.StartsWith, 'value');
+
+      expect(part.part).to.be.instanceOf(Comparators.StartsWith);
+      expect(part.part.field).to.equal('field');
+      expect(part.part.value).to.equal('value');
+      expect(part.part.get()).to.equal('fieldSTARTSWITHvalue');
     });
   });
 

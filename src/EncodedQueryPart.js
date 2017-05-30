@@ -1,4 +1,5 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 //import {IType} from './Comparator';
 var OrderBy_1 = require("./Comparators/OrderBy");
 var Comparator_1 = require("./Comparators/Comparator");
@@ -19,12 +20,20 @@ var EncodedQueryPart = (function () {
         this.operator = operator;
         this.part = part;
     }
-    EncodedQueryPart.prototype.and = function (field, compOrVal, value) {
+    EncodedQueryPart.prototype.and = function (field, compOrVal) {
+        var value = [];
+        for (var _i = 2; _i < arguments.length; _i++) {
+            value[_i - 2] = arguments[_i];
+        }
         var p = EncodedQueryPart.ensurePart(Operator.And, Comparator_1.parseArgs(field, compOrVal, value));
         this.next = p;
         return p;
     };
-    EncodedQueryPart.prototype.or = function (field, compOrVal, value) {
+    EncodedQueryPart.prototype.or = function (field, compOrVal) {
+        var value = [];
+        for (var _i = 2; _i < arguments.length; _i++) {
+            value[_i - 2] = arguments[_i];
+        }
         // It is not logical to or an order by, so and it instead
         if (compOrVal === typeof OrderBy_1.OrderBy) {
             return this.and(field, compOrVal, value);
@@ -49,6 +58,9 @@ var EncodedQueryPart = (function () {
             return new EncodedQueryPart(operator, part);
         }
         else if (part instanceof IComparator_1.ValueComparator) {
+            return new EncodedQueryPart(operator, part);
+        }
+        else if (part instanceof IComparator_1.MultiValueComparator) {
             return new EncodedQueryPart(operator, part);
         }
         else {
