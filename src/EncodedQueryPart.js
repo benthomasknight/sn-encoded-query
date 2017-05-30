@@ -1,4 +1,6 @@
 "use strict";
+//import {IType} from './Comparator';
+var OrderBy_1 = require("./Comparators/OrderBy");
 var Comparator_1 = require("./Comparators/Comparator");
 var IComparator_1 = require("./Comparators/IComparator");
 var Operator;
@@ -23,6 +25,10 @@ var EncodedQueryPart = (function () {
         return p;
     };
     EncodedQueryPart.prototype.or = function (field, compOrVal, value) {
+        // It is not logical to or an order by, so and it instead
+        if (compOrVal === typeof OrderBy_1.OrderBy) {
+            return this.and(field, compOrVal, value);
+        }
         var p = EncodedQueryPart.ensurePart(Operator.Or, Comparator_1.parseArgs(field, compOrVal, value));
         this.next = p;
         return p;
@@ -30,6 +36,10 @@ var EncodedQueryPart = (function () {
     EncodedQueryPart.prototype.toString = function () {
         var str = this.operator + this.part.get();
         if (this.next) {
+            // The below operator can exist at the start, so does not have a chevron attached. If it is not at the start we need to manually add it
+            if (this.next.operator === Operator.OrderBy) {
+                str += '^';
+            }
             str += this.next.toString();
         }
         return str;

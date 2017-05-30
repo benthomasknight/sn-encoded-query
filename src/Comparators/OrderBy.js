@@ -16,7 +16,7 @@ var OrderBy = (function (_super) {
         return _super.call(this, field, direction) || this;
     }
     OrderBy.prototype.get = function () {
-        return this.value + this.field;
+        return (this.value || Direction.Ascending) + this.field;
     };
     return OrderBy;
 }(IComparator_1.ValueComparator));

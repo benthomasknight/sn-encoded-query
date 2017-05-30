@@ -50,6 +50,11 @@ export class EncodedQueryPart<T extends IComparator|IValueComparator> implements
   or(field:string, comparator:typeof ValueComparator, value:any):EncodedQueryPart<IValueComparator>;
   or(field:string, value:any):EncodedQueryPart<IValueComparator>;
   or(field:string, compOrVal:any, value?:any):EncodedQueryPart<IComparator|IValueComparator> {
+    // It is not logical to or an order by, so and it instead
+    if(compOrVal === typeof OrderBy) {
+      return this.and(field, compOrVal, value);
+    }
+
     let p = EncodedQueryPart.ensurePart(Operator.Or, parseArgs(field, compOrVal, value));
     this.next = p;
     return <EncodedQueryPart<T>>p;
@@ -58,6 +63,10 @@ export class EncodedQueryPart<T extends IComparator|IValueComparator> implements
   toString():string {
     let str = this.operator + this.part.get();
     if(this.next) {
+      // The below operator can exist at the start, so does not have a chevron attached. If it is not at the start we need to manually add it
+      if(this.next.operator === Operator.OrderBy) {
+        str += '^';
+      }
       str+=this.next.toString();
     }
     return str;

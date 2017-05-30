@@ -10,6 +10,6 @@ export class OrderBy extends ValueComparator {
   }
 
   get():string {
-    return this.value + this.field;
+    return (this.value || Direction.Ascending) + this.field;
   }
 }
