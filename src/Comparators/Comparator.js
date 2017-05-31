@@ -51,20 +51,10 @@ var On_1 = require("./On");
 exports.On = On_1.On;
 var Relative_1 = require("./Relative");
 exports.Relative = Relative_1.Relative;
-exports.RelativeAsOf = Relative_1.RelativeAsOf;
-exports.RelativeDirection = Relative_1.RelativeDirection;
-exports.RelativeTime = Relative_1.RelativeTime;
 var StartsWith_1 = require("./StartsWith");
 exports.StartsWith = StartsWith_1.StartsWith;
 var Trend_1 = require("./Trend");
 exports.Trend = Trend_1.Trend;
-exports.TrendDirection = Trend_1.TrendDirection;
-exports.TrendHour = Trend_1.TrendHour;
-exports.TrendDay = Trend_1.TrendDay;
-exports.TrendWeek = Trend_1.TrendWeek;
-exports.TrendMonth = Trend_1.TrendMonth;
-exports.TrendQuarter = Trend_1.TrendQuarter;
-exports.TrendYear = Trend_1.TrendYear;
 function parseArgs(field, compOrVal, values) {
     if (typeof compOrVal === "function") {
         // Comparator has been given
@@ -85,8 +75,6 @@ function parseArgs(field, compOrVal, values) {
 }
 exports.parseArgs = parseArgs;
 var types = [
-    { "code": "ON", "format": "{0}{1}{2}{4}" },
-    { "code": "NOTON", "format": "{0}{1}{2}{4}" },
     { "code": "MORETHAN", "format": "" },
     { "code": "LESSTHAN", "format": "" }
     // Below are options I am not sure how to handle. Will look again later

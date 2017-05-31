@@ -210,6 +210,14 @@ export class Trend extends MultiValueComparator {
     }
     throw new Error('Invalid trend type');
   }
+
+  public static readonly TrendDirection = TrendDirection;
+  public static readonly TrendHour = TrendHour;
+  public static readonly TrendDay = TrendDay;
+  public static readonly TrendWeek = TrendWeek;
+  public static readonly TrendMonth = TrendMonth;
+  public static readonly TrendQuarter = TrendQuarter;
+  public static readonly TrendYear = TrendYear;
 }
 
 // sys_created_onDATEPARTMonday@javascript:gs.datePart('dayofweek','monday','EE')

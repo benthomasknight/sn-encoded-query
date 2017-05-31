@@ -25,9 +25,9 @@ export { NotIn } from "./NotIn";
 export { NotLike } from './NotLike';
 export { NotOn } from './NotOn';
 export { On } from './On';
-export { Relative, RelativeAsOf, RelativeDirection, RelativeTime } from './Relative';
+export { Relative } from './Relative';
 export { StartsWith } from "./StartsWith";
-export { Trend, TrendDirection, TrendHour, TrendDay, TrendWeek, TrendMonth, TrendQuarter, TrendYear } from "./Trend";
+export { Trend } from "./Trend";
 
 export function parseArgs(field:string, comparator:typeof Comparator):IComparator;
 export function parseArgs(field:string, comparator:typeof ValueComparator, value:any):IValueComparator;

@@ -214,6 +214,13 @@ var Trend = (function (_super) {
     };
     return Trend;
 }(IComparator_1.MultiValueComparator));
+Trend.TrendDirection = TrendDirection;
+Trend.TrendHour = TrendHour;
+Trend.TrendDay = TrendDay;
+Trend.TrendWeek = TrendWeek;
+Trend.TrendMonth = TrendMonth;
+Trend.TrendQuarter = TrendQuarter;
+Trend.TrendYear = TrendYear;
 exports.Trend = Trend;
 // sys_created_onDATEPARTMonday@javascript:gs.datePart('dayofweek','monday','EE')
 // sys_created_onDATEPARTNoon hour@javascript:gs.datePart('hour', '12','EE') 

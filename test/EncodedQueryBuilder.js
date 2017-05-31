@@ -250,13 +250,13 @@ describe('EncodedQueryBuilder', function () {
             chai_1.expect(part.part.get()).to.equal('fieldON2017-05-30@javascript:gs.dateGenerate(\'2017-05-30\',\'start\')@javascript:gs.dateGenerate(\'2017-05-30\',\'end\')');
         });
         it('should return a Relative object when a Relative comparator is provided', function () {
-            var part = new EncodedQueryBuilder_1.EncodedQueryBuilder().addQuery('field', Comparators.Relative, Comparators.RelativeDirection.On, 5, Comparators.RelativeTime.Hours, Comparators.RelativeAsOf.BeforeNow);
+            var part = new EncodedQueryBuilder_1.EncodedQueryBuilder().addQuery('field', Comparators.Relative, Comparators.Relative.RelativeDirection.On, 5, Comparators.Relative.RelativeTime.Hours, Comparators.Relative.RelativeAsOf.BeforeNow);
             chai_1.expect(part.part).to.be.instanceOf(Comparators.Relative);
             chai_1.expect(part.part.field).to.equal('field');
-            chai_1.expect(part.part.value[0]).to.equal(Comparators.RelativeDirection.On);
+            chai_1.expect(part.part.value[0]).to.equal(Comparators.Relative.RelativeDirection.On);
             chai_1.expect(part.part.value[1]).to.equal(5);
-            chai_1.expect(part.part.value[2]).to.equal(Comparators.RelativeTime.Hours);
-            chai_1.expect(part.part.value[3]).to.equal(Comparators.RelativeAsOf.BeforeNow);
+            chai_1.expect(part.part.value[2]).to.equal(Comparators.Relative.RelativeTime.Hours);
+            chai_1.expect(part.part.value[3]).to.equal(Comparators.Relative.RelativeAsOf.BeforeNow);
             chai_1.expect(part.part.get()).to.equal('fieldRELATIVEEE@hour@ago@5');
         });
         it('should return an StartsWith object when an StartsWith comparator is provided', function () {
@@ -267,11 +267,11 @@ describe('EncodedQueryBuilder', function () {
             chai_1.expect(part.part.get()).to.equal('fieldSTARTSWITHvalue');
         });
         it('should return a Trend object when a Trend comparator is provided', function () {
-            var part = new EncodedQueryBuilder_1.EncodedQueryBuilder().addQuery('field', Comparators.Trend, Comparators.TrendDirection.On, Comparators.TrendDay.Monday);
+            var part = new EncodedQueryBuilder_1.EncodedQueryBuilder().addQuery('field', Comparators.Trend, Comparators.Trend.TrendDirection.On, Comparators.Trend.TrendDay.Monday);
             chai_1.expect(part.part).to.be.instanceOf(Comparators.Trend);
             chai_1.expect(part.part.field).to.equal('field');
-            chai_1.expect(part.part.value[0]).to.equal(Comparators.TrendDirection.On);
-            chai_1.expect(part.part.value[1]).to.equal(Comparators.TrendDay.Monday);
+            chai_1.expect(part.part.value[0]).to.equal(Comparators.Trend.TrendDirection.On);
+            chai_1.expect(part.part.value[1]).to.equal(Comparators.Trend.TrendDay.Monday);
             chai_1.expect(part.part.get()).to.equal('fieldDATEPARTMonday@javascript:gs.datePart(\'dayofweek\',\'monday\',\'EE\')');
         });
     });

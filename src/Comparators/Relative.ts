@@ -31,4 +31,8 @@ export class Relative extends MultiValueComparator {
   get():string {
     return this.field + "RELATIVE" + this.value[0] + '@' + this.value[2] + '@' + this.value[3] + '@' + this.value[1];
   }
+
+  public static readonly RelativeAsOf = RelativeAsOf;
+  public static readonly RelativeTime = RelativeTime;
+  public static readonly RelativeDirection = RelativeDirection;
 }

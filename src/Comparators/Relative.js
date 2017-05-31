@@ -43,5 +43,8 @@ var Relative = (function (_super) {
     };
     return Relative;
 }(IComparator_1.MultiValueComparator));
+Relative.RelativeAsOf = RelativeAsOf;
+Relative.RelativeTime = RelativeTime;
+Relative.RelativeDirection = RelativeDirection;
 exports.Relative = Relative;
 //# sourceMappingURL=Relative.js.map
