@@ -248,6 +248,43 @@ describe('EncodedQueryBuilder', function() {
       expect(part.part.value).to.equal('value');
       expect(part.part.get()).to.equal('fieldNOT LIKEvalue');
     });
+    it('should return a NotOn object when a NotOn comparator is provided', function() {
+      let part = new EncodedQueryBuilder().addQuery('field', Comparators.NotOn, Comparators.NotOn.DateRelativeOn.Yesterday);
+      expect(part.part).to.be.instanceOf(Comparators.NotOn);
+      expect(part.part.field).to.equal('field');
+      expect(part.part.value).to.equal(Comparators.NotOn.DateRelativeOn.Yesterday);
+      expect(part.part.get()).to.equal('fieldNOTONYesterday@javascript:gs.daysAgoStart(1)@javascript:gs.daysAgoEnd(1)');
+
+      part = new EncodedQueryBuilder().addQuery('field', Comparators.NotOn, '2017-05-30');
+      expect(part.part).to.be.instanceOf(Comparators.NotOn);
+      expect(part.part.field).to.equal('field');
+      expect(part.part.value).to.equal('2017-05-30');
+      expect(part.part.get()).to.equal('fieldNOTON2017-05-30@javascript:gs.dateGenerate(\'2017-05-30\',\'start\')@javascript:gs.dateGenerate(\'2017-05-30\',\'end\')');
+    });
+    it('should return an On object when an On comparator is provided', function() {
+      let part = new EncodedQueryBuilder().addQuery('field', Comparators.On, Comparators.On.DateRelativeOn.Yesterday);
+      expect(part.part).to.be.instanceOf(Comparators.On);
+      expect(part.part.field).to.equal('field');
+      expect(part.part.value).to.equal(Comparators.On.DateRelativeOn.Yesterday);
+      expect(part.part.get()).to.equal('fieldONYesterday@javascript:gs.daysAgoStart(1)@javascript:gs.daysAgoEnd(1)');
+
+      part = new EncodedQueryBuilder().addQuery('field', Comparators.On, '2017-05-30');
+      expect(part.part).to.be.instanceOf(Comparators.On);
+      expect(part.part.field).to.equal('field');
+      expect(part.part.value).to.equal('2017-05-30');
+      expect(part.part.get()).to.equal('fieldON2017-05-30@javascript:gs.dateGenerate(\'2017-05-30\',\'start\')@javascript:gs.dateGenerate(\'2017-05-30\',\'end\')');
+    });
+    it('should return a Relative object when a Relative comparator is provided', function() {
+      let part = new EncodedQueryBuilder().addQuery('field', Comparators.Relative, Comparators.RelativeDirection.On, 5, Comparators.RelativeTime.Hours, Comparators.RelativeAsOf.BeforeNow);
+
+      expect(part.part).to.be.instanceOf(Comparators.Relative);
+      expect(part.part.field).to.equal('field');
+      expect(part.part.value[0]).to.equal(Comparators.RelativeDirection.On);
+      expect(part.part.value[1]).to.equal(5);
+      expect(part.part.value[2]).to.equal(Comparators.RelativeTime.Hours);
+      expect(part.part.value[3]).to.equal(Comparators.RelativeAsOf.BeforeNow);
+      expect(part.part.get()).to.equal('fieldRELATIVEEE@hour@ago@5');
+    });
     it('should return an StartsWith object when an StartsWith comparator is provided', function() {
       let part = new EncodedQueryBuilder().addQuery('field', Comparators.StartsWith, 'value');
 
@@ -255,6 +292,15 @@ describe('EncodedQueryBuilder', function() {
       expect(part.part.field).to.equal('field');
       expect(part.part.value).to.equal('value');
       expect(part.part.get()).to.equal('fieldSTARTSWITHvalue');
+    });
+    it('should return a Trend object when a Trend comparator is provided', function() {
+      let part = new EncodedQueryBuilder().addQuery('field', Comparators.Trend, Comparators.TrendDirection.On, Comparators.TrendDay.Monday);
+
+      expect(part.part).to.be.instanceOf(Comparators.Trend);
+      expect(part.part.field).to.equal('field');
+      expect(part.part.value[0]).to.equal(Comparators.TrendDirection.On);
+      expect(part.part.value[1]).to.equal(Comparators.TrendDay.Monday);
+      expect(part.part.get()).to.equal('fieldDATEPARTMonday@javascript:gs.datePart(\'dayofweek\',\'monday\',\'EE\')');
     });
   });
 

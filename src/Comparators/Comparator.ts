@@ -23,7 +23,11 @@ export { LessThanOrEqualTo } from "./LessThanOrEqualTo";
 export { Like } from './Like';
 export { NotIn } from "./NotIn";
 export { NotLike } from './NotLike';
+export { NotOn } from './NotOn';
+export { On } from './On';
+export { Relative, RelativeAsOf, RelativeDirection, RelativeTime } from './Relative';
 export { StartsWith } from "./StartsWith";
+export { Trend, TrendDirection, TrendHour, TrendDay, TrendWeek, TrendMonth, TrendQuarter, TrendYear } from "./Trend";
 
 export function parseArgs(field:string, comparator:typeof Comparator):IComparator;
 export function parseArgs(field:string, comparator:typeof ValueComparator, value:any):IValueComparator;
@@ -36,10 +40,10 @@ export function parseArgs(field:string, compOrVal:any, values?:any[]):IComparato
       return new compOrVal(field, ...values) as IComparator;
     }
     if(compOrVal.length == 2) {
-      return new compOrVal(field, values[0]) as IValueComparator;
+      return new compOrVal(field, ...values) as IValueComparator;
     }
-    if(compOrVal.length == 3) {
-      return new compOrVal(field, values[0], values[1]) as IMultiValueComparator;
+    if(compOrVal.length >= 3) {
+      return new compOrVal(field, ...values) as IMultiValueComparator;
     }
   }
   else {
@@ -58,21 +62,15 @@ export interface IType {
 
 
 let types:Array<IType> = [
-    {"code":"DATEPART", "format":"{0}{1}{2}{4}"},
-    {"code":"RELATIVE", "format":"{0}{1}{2}{4}"},
+  {"code":"MORETHAN", "format":""},
+  {"code":"LESSTHAN", "format":""}
 
     // Below are options I am not sure how to handle. Will look again later
-    /*{"code":"ON", "format":"{0}{1}{2}{4}"}, // Calendar specific. Quite complex so leaving for now
-    {"code":"NOTON", "format":"{0}{1}{2}{4}"}, // Calendar specific. Quite complex so leaving for now
-    {"code":"SINCE", "format":""}, // Unknown
-    {"code":"MORETHAN", "format":""}, // Calendar specific. Quite complex so leaving for now
-    {"code":"LESSTHAN", "format":""}, // Calendar specific. Quite complex so leaving for now
+    /*{"code":"SINCE", "format":""}, // Unknown
     {"code":"MATCH_PAT", "format":""},
     {"code":"MATCH_RGX", "format":""},
     {"code":"EMPTYSTRING", "format":""},
     {"code":"DYNAMIC", "format":""},
-    {"code":"ascending", "format":""},
-    {"code":"descending", "format":""},
     {"code":"INSTANCEOF", "format":""},
     {"code":"VALCHANGES", "format":""},
     {"code":"CHANGESFROM", "format":""},
