@@ -8,7 +8,8 @@ Docs for formatting are [here](https://docs.servicenow.com/bundle/istanbul-servi
 
 To get a query string, you should add a query to the builder, then build it. The addQuery function will do a simple equals comparison when no comparator is provided.
 
-```#Javascript
+```Javascript
+var EncodedQueryBuilder = require('sn-encoded-query').EncodedQueryBuilder;
 var builder = new EncodedQueryBuilder();
 builder.addQuery('field','value');
 builder.build(); // Returns field=value
@@ -64,10 +65,86 @@ builder .addOrQuery('active','false')
 // Result: active=true^first_name=Ben^ORfirst_name=Simon^NQactive=false^first_name=Emma^ORfirst_name=Brenda
 ```
 
+### Order By
+
+You can add on as many orderby clauses as you like. They will be prioritized by the order they were added.
+
+```Javascript
+var Direction = require('sn-encoded-query').Comparators.Direction;
+builder.addOrderBy('field', Direction.Ascending);
+```
+
+### Group By
+
+You can have one column specified to group by. If you add a second group by, it will override the first.
+
+```Javascript
+builder.addGroupBy('field');
+```
+
 ### Comparators
 
 The comparators are labeled the same as they are in ServiceNow. To use them you must require them and then pass them to the function.
 
 ```Javascript
-var StartWith = require(')
+var StartWith = require('sn-encoded-query').Comparators.StartWith;
+
+builder.addQuery('field', StartsWith, 'val');
+builder.build();
+// Result: fieldSTARTSWITHval
 ```
+
+The list of comparators are:
+
+- Between
+- DateLessThan
+- DateMoreThan
+- Direction
+- Dynamic
+- EndsWith
+- GreaterThan
+- GreaterThanField
+- GreaterThanOrEqualsField
+- GreaterThanOrEqualTo
+- In
+- Is
+- IsAnything
+- IsEmpty
+- IsEmptyString
+- IsNot
+- IsNotEmpty
+- IsNotSameAs
+- IsSameAs
+- LessThan
+- LessThanField
+- LessThanOrEqualsField
+- LessThanOrEqualTo
+- Like
+- NotIn
+- NotLike
+- NotOn
+- On
+- Relative
+- StartsWith
+- Trend
+
+#### Not Implemented
+
+There are a few features that are not implemented yet. I have not yet come across a need for these yet but once I do I will add them in.
+
+- Related List Queries
+- SINCE
+- MATCH_PAT
+- MATCH_RGX
+- INSTANCEOF
+- VALCHANGES
+- CHANGESFROM
+- CHANGESTO
+- sum
+- avg
+- min
+- max
+
+### Contributing
+
+Feel free to fork then submit a pull request [here](https://github.com/benthomasknight/sn-encoded-query).
