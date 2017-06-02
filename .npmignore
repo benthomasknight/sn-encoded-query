@@ -1,0 +1,8 @@
+node_modules
+
+# Directories
+test
+src
+
+# File Types
+*.js.map
