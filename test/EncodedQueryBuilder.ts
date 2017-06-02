@@ -231,17 +231,13 @@ describe('EncodedQueryBuilder', function() {
       expect(part.build()).to.equal('GROUPBYfield');
     });
     it('should return an OrderBy object when an OrderBy comparator is provided', function() {
-      let part = new EncodedQueryBuilder().addOrderBy('field', Comparators.Direction.Ascending);
-      expect(part.part).to.be.instanceOf(OrderBy);
-      expect(part.part.field).to.equal('field');
-      expect(part.part.value).to.equal(Comparators.Direction.Ascending);
-      expect(part.part.get()).to.equal('ORDERBYfield');
+      let b = new EncodedQueryBuilder();
+      b.addOrderBy('field', Comparators.Direction.Ascending);
+      expect(b.build()).to.equal('ORDERBYfield');
 
-      part = new EncodedQueryBuilder().addOrderBy('field', Comparators.Direction.Descending);
-      expect(part.part).to.be.instanceOf(OrderBy);
-      expect(part.part.field).to.equal('field');
-      expect(part.part.value).to.equal(Comparators.Direction.Descending);
-      expect(part.part.get()).to.equal('ORDERBYDESCfield');
+      b = new EncodedQueryBuilder();
+      b.addOrderBy('field', Comparators.Direction.Descending);
+      expect(b.build()).to.equal('ORDERBYDESCfield');
     });
     it('should return a Like object when a Like comparator is provided', function() {
       let part = new EncodedQueryBuilder().addQuery('field', Comparators.Like, 'value');

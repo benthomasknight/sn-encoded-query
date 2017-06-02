@@ -24,7 +24,7 @@ var EncodedQueryBuilder = (function () {
         return this.tree.add(EncodedQueryPart_1.Operator.NewQuery, Comparator_1.parseArgs(field, compOrVal, values));
     };
     EncodedQueryBuilder.prototype.addOrderBy = function (field, direction) {
-        return this.tree.add(EncodedQueryPart_1.Operator.And, Comparator_1.parseArgs(field, OrderBy_1.OrderBy, [direction || OrderBy_1.Direction.Ascending]));
+        this.tree.add(EncodedQueryPart_1.Operator.And, Comparator_1.parseArgs(field, OrderBy_1.OrderBy, [direction || OrderBy_1.Direction.Ascending]));
     };
     EncodedQueryBuilder.prototype.addGroupBy = function (field) {
         this.tree.add(EncodedQueryPart_1.Operator.GroupBy, Comparator_1.parseArgs(field, GroupBy_1.GroupBy));

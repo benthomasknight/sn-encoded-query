@@ -45,8 +45,10 @@ export class EncodedQueryBuilder {
     return this.tree.add(Operator.NewQuery, parseArgs(field, compOrVal, values));
   }
 
-  addOrderBy(field:string, direction?:Direction):EncodedQueryPart<OrderBy> {
-    return <EncodedQueryPart<OrderBy>>this.tree.add(Operator.And, parseArgs(field, OrderBy, [direction || Direction.Ascending]));
+  addOrderBy(field:string):void;
+  addOrderBy(field:string, direction:Direction):void;
+  addOrderBy(field:string, direction?:Direction):void {
+    this.tree.add(Operator.And, parseArgs(field, OrderBy, [direction || Direction.Ascending]));
   }
 
   addGroupBy(field:string):void {

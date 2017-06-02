@@ -2,7 +2,6 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var _1 = require("../");
 var chai_1 = require("chai");
-var OrderBy_1 = require("../src/Comparators/OrderBy");
 describe('EncodedQueryBuilder', function () {
     describe('#addQuery(field, value)', function () {
         it('should return an Is object when no comparator is provided', function () {
@@ -210,16 +209,12 @@ describe('EncodedQueryBuilder', function () {
             chai_1.expect(part.build()).to.equal('GROUPBYfield');
         });
         it('should return an OrderBy object when an OrderBy comparator is provided', function () {
-            var part = new _1.EncodedQueryBuilder().addOrderBy('field', _1.Comparators.Direction.Ascending);
-            chai_1.expect(part.part).to.be.instanceOf(OrderBy_1.OrderBy);
-            chai_1.expect(part.part.field).to.equal('field');
-            chai_1.expect(part.part.value).to.equal(_1.Comparators.Direction.Ascending);
-            chai_1.expect(part.part.get()).to.equal('ORDERBYfield');
-            part = new _1.EncodedQueryBuilder().addOrderBy('field', _1.Comparators.Direction.Descending);
-            chai_1.expect(part.part).to.be.instanceOf(OrderBy_1.OrderBy);
-            chai_1.expect(part.part.field).to.equal('field');
-            chai_1.expect(part.part.value).to.equal(_1.Comparators.Direction.Descending);
-            chai_1.expect(part.part.get()).to.equal('ORDERBYDESCfield');
+            var b = new _1.EncodedQueryBuilder();
+            b.addOrderBy('field', _1.Comparators.Direction.Ascending);
+            chai_1.expect(b.build()).to.equal('ORDERBYfield');
+            b = new _1.EncodedQueryBuilder();
+            b.addOrderBy('field', _1.Comparators.Direction.Descending);
+            chai_1.expect(b.build()).to.equal('ORDERBYDESCfield');
         });
         it('should return a Like object when a Like comparator is provided', function () {
             var part = new _1.EncodedQueryBuilder().addQuery('field', _1.Comparators.Like, 'value');

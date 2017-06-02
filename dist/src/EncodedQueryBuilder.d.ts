@@ -2,7 +2,7 @@ import { TimeDirection } from "./Comparators/Utils";
 import { TimePeriods } from "./Comparators/Utils";
 import { Between } from "./Comparators/Between";
 import { Comparator, IComparator, IValueComparator, ValueComparator, IMultiValueComparator, MultiValueComparator } from "./Comparators/IComparator";
-import { Direction, OrderBy } from "./Comparators/OrderBy";
+import { Direction } from "./Comparators/OrderBy";
 import { EncodedQueryPart } from "./EncodedQueryPart";
 import { DateMoreThan } from "./Comparators/DateMoreThan";
 import { DateLessThan } from "./Comparators/DateLessThan";
@@ -27,7 +27,8 @@ export declare class EncodedQueryBuilder {
     addOrQuery(field: string, comparator: typeof DateMoreThan | typeof DateLessThan, value: number | string, period: TimePeriods, direction: TimeDirection, comparisonField: string): EncodedQueryPart<IMultiValueComparator>;
     addOrQuery(field: string, comparator: typeof MultiValueComparator, ...value: any[]): EncodedQueryPart<IMultiValueComparator>;
     addOrQuery(field: string, value: any): EncodedQueryPart<IValueComparator>;
-    addOrderBy(field: string, direction?: Direction): EncodedQueryPart<OrderBy>;
+    addOrderBy(field: string): void;
+    addOrderBy(field: string, direction: Direction): void;
     addGroupBy(field: string): void;
     build(): string;
 }
