@@ -2,7 +2,15 @@ node_modules
 
 # Directories
 test
-src
+/src
 
 # File Types
 *.js.map
+*.ts
+
+# Dev Files
+tsconfig.json
+snow-configs.json
+
+# Specific files
+index.ts
