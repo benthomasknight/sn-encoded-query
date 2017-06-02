@@ -47,3 +47,18 @@ export enum DateRelativeOn {
   ThisFiscalQuarter = <any>'This Fiscal Quarter@javascript:gs.beginningOfThisSchedulePeriod(\'b198ae11d7222100738dc0da9e6103d7\')@javascript:gs.endOfThisSchedulePeriod(\'b198ae11d7222100738dc0da9e6103d7\')',
   NextFiscalQuarter = <any>'Next Fiscal Quarter@javascript:gs.beginningOfNextSchedulePeriod(\'b198ae11d7222100738dc0da9e6103d7\')@javascript:gs.endOfNextSchedulePeriod(\'b198ae11d7222100738dc0da9e6103d7\')',
 }
+
+export enum TimePeriods {
+  Hours = <any>'hour',
+  Days = <any>'day',
+  Weeks = <any>'week',
+  Months = <any>'month',
+  Quarters = <any>'quarter',
+  Years = <any>'year'
+}
+
+export enum TimeDirection {
+  Before = <any>'before',
+  After = <any>'after',
+  BeforeOrAfter = <any>'before or after'
+}

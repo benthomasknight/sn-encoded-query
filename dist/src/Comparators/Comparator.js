@@ -1,40 +1,35 @@
 "use strict";
-var types = [
-    { "code": "=", "format": "{0}{1}{2}" },
-    { "code": "!=", "format": "{0}{1}{2}" },
-    { "code": "ISEMPTY", "format": "{0}{1}" },
-    { "code": "ISNOTEMPTY", "format": "{0}{1}" },
-    { "code": "<", "format": "{0}{1}{2}" },
-    { "code": ">", "format": "{0}{1}{2}" },
-    { "code": "<=", "format": "{0}{1}{2}" },
-    { "code": ">=", "format": "{0}{1}{2}" },
-    { "code": "BETWEEN", "format": "{0}{1}{2}@{3}" },
-    { "code": "ANYTHING", "format": "{0}{1}" },
-    { "code": "SAMEAS", "format": "{0}{1}{2}" },
-    { "code": "NSAMEAS", "format": "{0}{1}{2}" },
-    { "code": "GT_FIELD", "format": "{0}{1}{2}" },
-    { "code": "LT_FIELD", "format": "{0}{1}{2}" },
-    { "code": "GT_OR_EQUALS_FIELD", "format": "{0}{1}{2}" },
-    { "code": "LT_OR_EQUALS_FIELD", "format": "{0}{1}{2}" },
-    { "code": "DATEPART", "format": "{0}{1}{2}{4}" },
-    { "code": "RELATIVE", "format": "{0}{1}{2}{4}" },
-    { "code": "IN", "format": "{0}{1}{2}" },
-    { "code": "NOT IN", "format": "{0}{1}{2}" },
-    { "code": "LIKE", "format": "{0}{1}{2}" },
-    { "code": "STARTSWITH", "format": "{0}{1}{2}" },
-    { "code": "ENDSWITH", "format": "{0}{1}{2}" },
-    { "code": "NOT LIKE", "format": "{0}{1}{2}" }
-];
-/*export class Comparator {
-  
-}*/
-/*export function Comparator(comparator:string) {
-  for(let i = 0; i < types.length; i++) {
-    if(types[i].code == comparator) {
-      return types[i];
+Object.defineProperty(exports, "__esModule", { value: true });
+var Is_1 = require("./Is");
+function parseArgs(field, compOrVal, values) {
+    if (typeof compOrVal === "function") {
+        // Comparator has been given
+        if (compOrVal.length == 1) {
+            return new (compOrVal.bind.apply(compOrVal, [void 0, field].concat(values)))();
+        }
+        if (compOrVal.length == 2) {
+            return new (compOrVal.bind.apply(compOrVal, [void 0, field].concat(values)))();
+        }
+        if (compOrVal.length >= 3) {
+            return new (compOrVal.bind.apply(compOrVal, [void 0, field].concat(values)))();
+        }
     }
-  }
-
-  throw new Error('Invalid comparator provided: ' + comparator);
-}*/ 
+    else {
+        // assume it is an equals query
+        return new Is_1.Is(field, compOrVal);
+    }
+}
+exports.parseArgs = parseArgs;
+// Below are options I am not sure how to handle. Will look again later
+/*{"code":"SINCE", "format":""},
+{"code":"MATCH_PAT", "format":""},
+{"code":"MATCH_RGX", "format":""},
+{"code":"INSTANCEOF", "format":""},
+{"code":"VALCHANGES", "format":""},
+{"code":"CHANGESFROM", "format":""},
+{"code":"CHANGESTO", "format":""},
+{"code":"sum", "format":""},
+{"code":"avg", "format":""},
+{"code":"min", "format":""},
+{"code":"max", "format":""}*/ 
 //# sourceMappingURL=Comparator.js.map

@@ -1,7 +1,6 @@
-import { EncodedQueryBuilder } from "./../src/EncodedQueryBuilder";
+import { EncodedQueryBuilder, Comparators } from "../";
 import { expect } from 'chai';
 import { OrderBy } from '../src/Comparators/OrderBy';
-import * as Comparators from "./../src/Comparators/Comparator";
 import * as mocha from "mocha";
 
 
@@ -45,6 +44,36 @@ describe('EncodedQueryBuilder', function() {
       expect(part.part.value[0]).to.equal(0);
       expect(part.part.value[1]).to.equal(10);
       expect(part.part.get()).to.equal('fieldBETWEEN0@10');
+    });
+    it('should return a DateMoreThan object when a DateMoreThan comparator is provided', function() {
+      let part = new EncodedQueryBuilder().addQuery('field', Comparators.DateMoreThan, 5, Comparators.DateMoreThan.TimePeriods.Days, Comparators.DateMoreThan.TimeDirection.BeforeOrAfter, 'field2');
+
+      expect(part.part).to.be.instanceOf(Comparators.DateMoreThan);
+      expect(part.part.field).to.equal('field');
+      expect(part.part.value[0]).to.equal(5);
+      expect(part.part.value[1]).to.equal(Comparators.DateMoreThan.TimePeriods.Days);
+      expect(part.part.value[2]).to.equal(Comparators.DateMoreThan.TimeDirection.BeforeOrAfter);
+      expect(part.part.value[3]).to.equal('field2');
+      expect(part.part.get()).to.equal('fieldMORETHANfield2@day@before or after@5');
+    });
+    it('should return a DateLessThan object when a DateLessThan comparator is provided', function() {
+      let part = new EncodedQueryBuilder().addQuery('field', Comparators.DateLessThan, 5, Comparators.DateLessThan.TimePeriods.Days, Comparators.DateLessThan.TimeDirection.BeforeOrAfter, 'field2');
+
+      expect(part.part).to.be.instanceOf(Comparators.DateLessThan);
+      expect(part.part.field).to.equal('field');
+      expect(part.part.value[0]).to.equal(5);
+      expect(part.part.value[1]).to.equal(Comparators.DateLessThan.TimePeriods.Days);
+      expect(part.part.value[2]).to.equal(Comparators.DateLessThan.TimeDirection.BeforeOrAfter);
+      expect(part.part.value[3]).to.equal('field2');
+      expect(part.part.get()).to.equal('fieldLESSTHANfield2@day@before or after@5');
+    });
+    it('should return a Dynamic object when a Dynamic comparator is provided', function() {
+      let part = new EncodedQueryBuilder().addQuery('field', Comparators.Dynamic, Comparators.Dynamic.Filters.Me);
+
+      expect(part.part).to.be.instanceOf(Comparators.Dynamic);
+      expect(part.part.field).to.equal('field');
+      expect(part.part.value).to.equal(Comparators.Dynamic.Filters.Me);
+      expect(part.part.get()).to.equal('fieldDYNAMIC' + Comparators.Dynamic.Filters.Me);
     });
     it('should return an EndsWith object when an EndsWith comparator is provided', function() {
       let part = new EncodedQueryBuilder().addQuery('field', Comparators.EndsWith, 'value');
@@ -131,6 +160,13 @@ describe('EncodedQueryBuilder', function() {
       expect(part.part).to.be.instanceOf(Comparators.IsEmpty);
       expect(part.part.field).to.equal('field');
       expect(part.part.get()).to.equal('fieldISEMPTY');
+    });
+    it('should return an IsEmptyString object when an IsEmptyString comparator is provided', function() {
+      let part = new EncodedQueryBuilder().addQuery('field', Comparators.IsEmptyString);
+
+      expect(part.part).to.be.instanceOf(Comparators.IsEmptyString);
+      expect(part.part.field).to.equal('field');
+      expect(part.part.get()).to.equal('fieldEMPTYSTRING');
     });
     it('should return an IsNot object when an IsNot comparator is provided', function() {
       let part = new EncodedQueryBuilder().addQuery('field', Comparators.IsNot, 'value');

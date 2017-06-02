@@ -8,6 +8,7 @@ export class EncodedQueryTree {
   private parts:Array<EncodedQueryPart<IComparator|IValueComparator|IMultiValueComparator>>;
   private order:EncodedQueryPart<OrderBy>;
   private group:GroupBy;
+  //private relatedListQuery:Array<EncodedQueryPart<IComparator|IValueComparator|IMultiValueComparator>>;
 
   constructor() {
     this.parts = new Array<EncodedQueryPart<IComparator|IValueComparator|IMultiValueComparator>>();

@@ -1,10 +1,15 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var Is_1 = require("./Is");
 var Between_1 = require("./Between");
 exports.Between = Between_1.Between;
+var DateLessThan_1 = require("./DateLessThan");
+exports.DateLessThan = DateLessThan_1.DateLessThan;
+var DateMoreThan_1 = require("./DateMoreThan");
+exports.DateMoreThan = DateMoreThan_1.DateMoreThan;
 var OrderBy_1 = require("./OrderBy");
 exports.Direction = OrderBy_1.Direction;
+var Dynamic_1 = require("./Dynamic");
+exports.Dynamic = Dynamic_1.Dynamic;
 var EndsWith_1 = require("./EndsWith");
 exports.EndsWith = EndsWith_1.EndsWith;
 var GreaterThan_1 = require("./GreaterThan");
@@ -17,12 +22,14 @@ var GreaterThanOrEqualTo_1 = require("./GreaterThanOrEqualTo");
 exports.GreaterThanOrEqualTo = GreaterThanOrEqualTo_1.GreaterThanOrEqualTo;
 var In_1 = require("./In");
 exports.In = In_1.In;
-var Is_2 = require("./Is");
-exports.Is = Is_2.Is;
+var Is_1 = require("./Is");
+exports.Is = Is_1.Is;
 var IsAnything_1 = require("./IsAnything");
 exports.IsAnything = IsAnything_1.IsAnything;
 var IsEmpty_1 = require("./IsEmpty");
 exports.IsEmpty = IsEmpty_1.IsEmpty;
+var IsEmptyString_1 = require("./IsEmptyString");
+exports.IsEmptyString = IsEmptyString_1.IsEmptyString;
 var IsNot_1 = require("./IsNot");
 exports.IsNot = IsNot_1.IsNot;
 var IsNotEmpty_1 = require("./IsNotEmpty");
@@ -55,41 +62,4 @@ var StartsWith_1 = require("./StartsWith");
 exports.StartsWith = StartsWith_1.StartsWith;
 var Trend_1 = require("./Trend");
 exports.Trend = Trend_1.Trend;
-function parseArgs(field, compOrVal, values) {
-    if (typeof compOrVal === "function") {
-        // Comparator has been given
-        if (compOrVal.length == 1) {
-            return new (compOrVal.bind.apply(compOrVal, [void 0, field].concat(values)))();
-        }
-        if (compOrVal.length == 2) {
-            return new (compOrVal.bind.apply(compOrVal, [void 0, field].concat(values)))();
-        }
-        if (compOrVal.length >= 3) {
-            return new (compOrVal.bind.apply(compOrVal, [void 0, field].concat(values)))();
-        }
-    }
-    else {
-        // assume it is an equals query
-        return new Is_1.Is(field, compOrVal);
-    }
-}
-exports.parseArgs = parseArgs;
-var types = [
-    { "code": "MORETHAN", "format": "" },
-    { "code": "LESSTHAN", "format": "" }
-    // Below are options I am not sure how to handle. Will look again later
-    /*{"code":"SINCE", "format":""}, // Unknown
-    {"code":"MATCH_PAT", "format":""},
-    {"code":"MATCH_RGX", "format":""},
-    {"code":"EMPTYSTRING", "format":""},
-    {"code":"DYNAMIC", "format":""},
-    {"code":"INSTANCEOF", "format":""},
-    {"code":"VALCHANGES", "format":""},
-    {"code":"CHANGESFROM", "format":""},
-    {"code":"CHANGESTO", "format":""},
-    {"code":"sum", "format":""},
-    {"code":"avg", "format":""},
-    {"code":"min", "format":""},
-    {"code":"max", "format":""}*/
-];
-//# sourceMappingURL=Comparator.js.map
+//# sourceMappingURL=index.js.map

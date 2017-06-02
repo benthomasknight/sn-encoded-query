@@ -49,4 +49,19 @@ var DateRelativeOn;
     DateRelativeOn[DateRelativeOn["ThisFiscalQuarter"] = 'This Fiscal Quarter@javascript:gs.beginningOfThisSchedulePeriod(\'b198ae11d7222100738dc0da9e6103d7\')@javascript:gs.endOfThisSchedulePeriod(\'b198ae11d7222100738dc0da9e6103d7\')'] = "ThisFiscalQuarter";
     DateRelativeOn[DateRelativeOn["NextFiscalQuarter"] = 'Next Fiscal Quarter@javascript:gs.beginningOfNextSchedulePeriod(\'b198ae11d7222100738dc0da9e6103d7\')@javascript:gs.endOfNextSchedulePeriod(\'b198ae11d7222100738dc0da9e6103d7\')'] = "NextFiscalQuarter";
 })(DateRelativeOn = exports.DateRelativeOn || (exports.DateRelativeOn = {}));
+var TimePeriods;
+(function (TimePeriods) {
+    TimePeriods[TimePeriods["Hours"] = 'hour'] = "Hours";
+    TimePeriods[TimePeriods["Days"] = 'day'] = "Days";
+    TimePeriods[TimePeriods["Weeks"] = 'week'] = "Weeks";
+    TimePeriods[TimePeriods["Months"] = 'month'] = "Months";
+    TimePeriods[TimePeriods["Quarters"] = 'quarter'] = "Quarters";
+    TimePeriods[TimePeriods["Years"] = 'year'] = "Years";
+})(TimePeriods = exports.TimePeriods || (exports.TimePeriods = {}));
+var TimeDirection;
+(function (TimeDirection) {
+    TimeDirection[TimeDirection["Before"] = 'before'] = "Before";
+    TimeDirection[TimeDirection["After"] = 'after'] = "After";
+    TimeDirection[TimeDirection["BeforeOrAfter"] = 'before or after'] = "BeforeOrAfter";
+})(TimeDirection = exports.TimeDirection || (exports.TimeDirection = {}));
 //# sourceMappingURL=Utils.js.map
