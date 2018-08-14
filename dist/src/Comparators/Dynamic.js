@@ -1,8 +1,11 @@
 "use strict";
 var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    }
     return function (d, b) {
         extendStatics(d, b);
         function __() { this.constructor = d; }
@@ -19,7 +22,7 @@ var DynamicFilters = {
     UsersWithRoles: '32a39a165f510100a9ad2572f2b477a0'
 };
 exports.DynamicFilters = DynamicFilters;
-var Dynamic = (function (_super) {
+var Dynamic = /** @class */ (function (_super) {
     __extends(Dynamic, _super);
     function Dynamic(field, value) {
         return _super.call(this, field, value) || this;
@@ -27,8 +30,8 @@ var Dynamic = (function (_super) {
     Dynamic.prototype.get = function () {
         return this.field + "DYNAMIC" + this.value.toString();
     };
+    Dynamic.Filters = DynamicFilters;
     return Dynamic;
 }(IComparator_1.ValueComparator));
-Dynamic.Filters = DynamicFilters;
 exports.Dynamic = Dynamic;
 //# sourceMappingURL=Dynamic.js.map

@@ -1,8 +1,11 @@
 "use strict";
 var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    }
     return function (d, b) {
         extendStatics(d, b);
         function __() { this.constructor = d; }
@@ -10,7 +13,7 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var Comparator = (function () {
+var Comparator = /** @class */ (function () {
     function Comparator(field) {
         this.field = field;
     }
@@ -20,7 +23,7 @@ var Comparator = (function () {
     return Comparator;
 }());
 exports.Comparator = Comparator;
-var ValueComparator = (function (_super) {
+var ValueComparator = /** @class */ (function (_super) {
     __extends(ValueComparator, _super);
     function ValueComparator(field, value) {
         var _this = _super.call(this, field) || this;
@@ -33,7 +36,7 @@ var ValueComparator = (function (_super) {
     return ValueComparator;
 }(Comparator));
 exports.ValueComparator = ValueComparator;
-var MultiValueComparator = (function (_super) {
+var MultiValueComparator = /** @class */ (function (_super) {
     __extends(MultiValueComparator, _super);
     function MultiValueComparator(field) {
         var value = [];

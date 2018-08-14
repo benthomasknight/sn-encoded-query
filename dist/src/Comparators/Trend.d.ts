@@ -4,7 +4,7 @@ export declare enum TrendDirection {
     Before,
     On,
     OnOrAfter,
-    OnOrBefore,
+    OnOrBefore
 }
 export declare enum TrendDay {
     Monday,
@@ -13,7 +13,7 @@ export declare enum TrendDay {
     Thursday,
     Friday,
     Saturday,
-    Sunday,
+    Sunday
 }
 export declare enum TrendMonth {
     January,
@@ -27,13 +27,13 @@ export declare enum TrendMonth {
     September,
     October,
     November,
-    December,
+    December
 }
 export declare enum TrendQuarter {
     Quarter1,
     Quarter2,
     Quarter3,
-    Quarter4,
+    Quarter4
 }
 export declare enum TrendWeek {
     Week0,
@@ -89,7 +89,7 @@ export declare enum TrendWeek {
     Week50,
     Week51,
     Week52,
-    Week53,
+    Week53
 }
 export declare enum TrendHour {
     MidnightHour,
@@ -115,7 +115,7 @@ export declare enum TrendHour {
     EightPMHour,
     NinePMHour,
     TenPMHour,
-    ElevenPMHour,
+    ElevenPMHour
 }
 export declare enum TrendYear {
     Year2000 = 2000,
@@ -138,7 +138,7 @@ export declare enum TrendYear {
     Year2017 = 2017,
     Year2018 = 2018,
     Year2019 = 2019,
-    Year2020 = 2020,
+    Year2020 = 2020
 }
 export declare class Trend extends MultiValueComparator {
     constructor(field: string, direction: TrendDirection, value: TrendHour);
@@ -148,9 +148,9 @@ export declare class Trend extends MultiValueComparator {
     constructor(field: string, direction: TrendDirection, value: TrendQuarter);
     constructor(field: string, direction: TrendDirection, value: TrendYear);
     get(): string;
-    private getDateGenerationString();
-    private getPartType(type);
-    private getPartLabel(type);
+    private getDateGenerationString;
+    private getPartType;
+    private getPartLabel;
     static readonly TrendDirection: typeof TrendDirection;
     static readonly TrendHour: typeof TrendHour;
     static readonly TrendDay: typeof TrendDay;

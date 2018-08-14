@@ -8,7 +8,7 @@ export declare enum Operator {
     RelatedListStart,
     RelatedListEnd,
     GroupBy,
-    OrderBy,
+    OrderBy
 }
 export interface IPart<T extends Comparator | ValueComparator | MultiValueComparator> {
     operator: Operator;

@@ -15,7 +15,7 @@ var Operator;
     Operator[Operator["GroupBy"] = 'GROUPBY'] = "GroupBy";
     Operator[Operator["OrderBy"] = 'ORDERBY'] = "OrderBy";
 })(Operator = exports.Operator || (exports.Operator = {}));
-var EncodedQueryPart = (function () {
+var EncodedQueryPart = /** @class */ (function () {
     function EncodedQueryPart(operator, part) {
         this.operator = operator;
         this.part = part;

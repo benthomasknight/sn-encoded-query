@@ -29,6 +29,9 @@ export class EncodedQueryBuilder {
   addQuery(field:string, comparator:typeof DateMoreThan|typeof DateLessThan, value:number|string, period:TimePeriods, direction:TimeDirection, comparisonField:string):EncodedQueryPart<IMultiValueComparator>;
   addQuery(field:string, comparator:typeof MultiValueComparator, ...value:any[]):EncodedQueryPart<IMultiValueComparator>;
   addQuery(field:string, value:any):EncodedQueryPart<IValueComparator>;
+  addQuery(field:string, comparator:string):EncodedQueryPart<IComparator>;
+  addQuery(field:string, comparator:string, values:any):EncodedQueryPart<IValueComparator>;
+  addQuery(field:string, comparator:string, ...values:any[]):EncodedQueryPart<IMultiValueComparator>;
   addQuery(field:string, compOrVal:any, ...values:any[]):EncodedQueryPart<IComparator|IValueComparator|IMultiValueComparator> {
     return this.tree.add(Operator.And, parseArgs(field, compOrVal, values));
   }

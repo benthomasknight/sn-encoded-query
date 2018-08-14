@@ -1,8 +1,11 @@
 "use strict";
 var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    }
     return function (d, b) {
         extendStatics(d, b);
         function __() { this.constructor = d; }
@@ -159,7 +162,7 @@ var TrendYear;
     TrendYear[TrendYear["Year2019"] = 2019] = "Year2019";
     TrendYear[TrendYear["Year2020"] = 2020] = "Year2020";
 })(TrendYear = exports.TrendYear || (exports.TrendYear = {}));
-var Trend = (function (_super) {
+var Trend = /** @class */ (function (_super) {
     __extends(Trend, _super);
     function Trend(field, direction, value) {
         return _super.call(this, field, direction, value) || this;
@@ -212,16 +215,16 @@ var Trend = (function (_super) {
         }
         throw new Error('Invalid trend type');
     };
+    Trend.TrendDirection = TrendDirection;
+    Trend.TrendHour = TrendHour;
+    Trend.TrendDay = TrendDay;
+    Trend.TrendWeek = TrendWeek;
+    Trend.TrendMonth = TrendMonth;
+    Trend.TrendQuarter = TrendQuarter;
+    Trend.TrendYear = TrendYear;
     return Trend;
 }(IComparator_1.MultiValueComparator));
-Trend.TrendDirection = TrendDirection;
-Trend.TrendHour = TrendHour;
-Trend.TrendDay = TrendDay;
-Trend.TrendWeek = TrendWeek;
-Trend.TrendMonth = TrendMonth;
-Trend.TrendQuarter = TrendQuarter;
-Trend.TrendYear = TrendYear;
 exports.Trend = Trend;
 // sys_created_onDATEPARTMonday@javascript:gs.datePart('dayofweek','monday','EE')
-// sys_created_onDATEPARTNoon hour@javascript:gs.datePart('hour', '12','EE') 
+// sys_created_onDATEPARTNoon hour@javascript:gs.datePart('hour', '12','EE')
 //# sourceMappingURL=Trend.js.map

@@ -38,7 +38,7 @@ export declare enum DateRelativeOn {
     OneYearAgo,
     LastFiscalQuarter,
     ThisFiscalQuarter,
-    NextFiscalQuarter,
+    NextFiscalQuarter
 }
 export declare enum TimePeriods {
     Hours,
@@ -46,10 +46,10 @@ export declare enum TimePeriods {
     Weeks,
     Months,
     Quarters,
-    Years,
+    Years
 }
 export declare enum TimeDirection {
     Before,
     After,
-    BeforeOrAfter,
+    BeforeOrAfter
 }

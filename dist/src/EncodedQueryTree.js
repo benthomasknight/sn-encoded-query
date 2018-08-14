@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var EncodedQueryPart_1 = require("./EncodedQueryPart");
 var EncodedQueryPart_2 = require("./EncodedQueryPart");
-var EncodedQueryTree = (function () {
+var EncodedQueryTree = /** @class */ (function () {
     //private relatedListQuery:Array<EncodedQueryPart<IComparator|IValueComparator|IMultiValueComparator>>;
     function EncodedQueryTree() {
         this.parts = new Array();

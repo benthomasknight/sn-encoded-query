@@ -13,5 +13,5 @@ export declare class EncodedQueryTree {
     add(operator: Operator, part: EncodedQueryPart<IValueComparator>): EncodedQueryPart<IValueComparator>;
     add(operator: Operator, part: EncodedQueryPart<IMultiValueComparator>): EncodedQueryPart<IMultiValueComparator>;
     get(): string;
-    private traverseOrder();
+    private traverseOrder;
 }

@@ -4,7 +4,7 @@ export declare enum RelativeDirection {
     Before,
     On,
     OnOrAfter,
-    OnOrBefore,
+    OnOrBefore
 }
 export declare enum RelativeTime {
     Hours,
@@ -12,11 +12,11 @@ export declare enum RelativeTime {
     Days,
     Months,
     Quarters,
-    Years,
+    Years
 }
 export declare enum RelativeAsOf {
     BeforeNow,
-    FromNow,
+    FromNow
 }
 export declare class Relative extends MultiValueComparator {
     constructor(field: string, direction: RelativeDirection, value: any, time: RelativeTime, asOf: RelativeAsOf);

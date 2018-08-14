@@ -5,7 +5,7 @@ var EncodedQueryTree_1 = require("./EncodedQueryTree");
 var GroupBy_1 = require("./Comparators/GroupBy");
 var EncodedQueryPart_1 = require("./EncodedQueryPart");
 var Comparator_1 = require("./Comparators/Comparator");
-var EncodedQueryBuilder = (function () {
+var EncodedQueryBuilder = /** @class */ (function () {
     function EncodedQueryBuilder() {
         this.tree = new EncodedQueryTree_1.EncodedQueryTree();
     }
